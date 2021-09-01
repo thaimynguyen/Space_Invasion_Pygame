@@ -5,7 +5,7 @@
 
 ### In Progress
 
-- [] Removing objects upon collision (enemy bullets & enemy ships vs playership) and (player bullets vs enemy ships)
+- [ ] Removing objects upon collision (enemy bullets & enemy ships vs playership) and (player bullets vs enemy ships)
 
 ### Done ✓
 
