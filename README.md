@@ -15,7 +15,7 @@ The features of the game is as follows:
 - The player can shoot bullets using the Space key.
 
 <p align="center">
-  <img src="https://github.com/thaimynguyen/Space_Invasion_Pygame/blob/main/2021-09-15%2020_18_47-Space%20Invasion%20Game.png" width="350">
+  <img src="https://github.com/thaimynguyen/Space_Invasion_Pygame/blob/main/2021-09-15%2020_22_18-main.py%20-%20Space_Battle_Pygame.png" width="350">
 </p>
 
 ## Set-up:
