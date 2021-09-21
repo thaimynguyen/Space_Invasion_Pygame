@@ -1,6 +1,7 @@
 # Space Invasion Game with Pygame
 [![Language](https://img.shields.io/badge/language-python-blue.svg?style=flat)](https://www.python.org)
 [![Module](https://img.shields.io/badge/module-pygame-brightgreen.svg?style=flat)](http://www.pygame.org/news.html)
+![Status](https://img.shields.io/badge/status-in_progress-red)
 
 A classic space invaders game made in Python using Pygame.
 
@@ -8,7 +9,8 @@ A classic space invaders game made in Python using Pygame.
 Major things that I want to focus on learning in this project
 - Pygame 
 - Object-Oriented Programming
-
+- App deployment (Heroku)
+- 
 ## Game Screenshot
 
 <p align="center">
