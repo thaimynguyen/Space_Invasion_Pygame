@@ -10,7 +10,7 @@ Major things that I want to focus on learning in this project
 - Pygame 
 - Object-Oriented Programming
 - App deployment (Heroku)
-- 
+
 ## Game Screenshot
 
 <p align="center">
