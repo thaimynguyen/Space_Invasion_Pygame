@@ -16,6 +16,13 @@ class PlayerShip(actor.Actor):
         self.x = (self.settings.width - self.width) // 2
         self.y = self.settings.height - self.height
 
+        self._invulnerable_frame = settings.FPS * 3
+
+    def update(self) -> None:
+        if self._invulnerable_frame <= 0:
+            return
+        self._invulnerable_frame -= 1
+
     def move_left(self) -> None:
         if self.x - self.speed > 0:
             self.x -= self.speed
@@ -29,8 +36,14 @@ class PlayerShip(actor.Actor):
         return bullet
 
     def on_collision(self, other) -> None:
+        if self._is_invulnerable():
+            return
+
         if isinstance(other, enemy.EnemyShip) or isinstance(other, enemy.EnemyBullet):
             self.should_be_removed = True
+
+    def _is_invulnerable(self) -> bool:
+        return self._invulnerable_frame > 0
 
 
 class PlayerBullet(actor.Actor):

@@ -25,7 +25,9 @@ class EnemyShip(actor.Actor):
         return bullet
 
     def on_collision(self, other) -> None:
-        if isinstance(other, player.PlayerShip) or isinstance(other, player.PlayerBullet):
+        if isinstance(other, player.PlayerShip) or isinstance(
+            other, player.PlayerBullet
+        ):
             self.should_be_removed = True
 
 

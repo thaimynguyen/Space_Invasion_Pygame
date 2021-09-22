@@ -30,29 +30,40 @@ class Game:
         pygame.display.update()
 
     def update_all(self):
+        # Pre-action phase
         for actor in self.actors:
             # update new x, y positions
             actor.update()
 
-            # remove from program when out of screen
-            if actor.y > self.settings.height:
+            # remove from program when out of screen, counting both top and bottom
+            if actor.y > self.settings.height or actor.y < 0:
                 self.actors.remove(actor)
-
-            # check collision
-            for other_actor in self.actors:
-                if actor.check_collision(other_actor):
-                    actor.on_collision(other_actor)
-
-            if actor.should_be_removed:
-                self.actors.remove(actor)
-                # if isinstance(actor, PlayerShip):
-                # self.reset_player_life()
+                continue
 
             # enemy ships shoot bullets randomly
             if isinstance(actor, EnemyShip) and not actor.should_be_removed:
                 if random.randint(1, self.settings.FPS * 3) == 1:
                     bullet = actor.shoot()
                     self.actors.append(bullet)
+
+        # Action phase
+        for i in range(len(self.actors)):
+            actor = self.actors[i]
+
+            # check collision against all the other object. This is a 2-way evaluation
+            # so we only check for unique pairings
+            for j in range(i + 1, len(self.actors)):
+                other_actor = self.actors[j]
+                if actor.check_collision(other_actor):
+                    actor.on_collision(other_actor)
+                    other_actor.on_collision(actor)
+
+        # Post-action phase
+        for actor in self.actors:
+            if actor.should_be_removed:
+                self.actors.remove(actor)
+                if isinstance(actor, PlayerShip):
+                    self.reset_player_life()
 
     def create_enemy(self):
         enemy_ship = EnemyShip(self.settings)
@@ -90,7 +101,6 @@ class Game:
 
             self.update_all()
             self.draw_screen()
-            pygame.display.update()
 
 
 if __name__ == "__main__":
