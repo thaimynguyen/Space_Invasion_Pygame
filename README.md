@@ -16,7 +16,7 @@ Major things that I want to focus on learning in this project
 ## Game Screenshot
 
 <p align="center">
-  <img src="https://github.com/thaimynguyen/Space_Invasion_Pygame/blob/main/2021-09-15%2020_22_18-main.py%20-%20Space_Battle_Pygame.png" width="350">
+  <img src="https://github.com/thaimynguyen/Space_Invasion_Pygame/blob/main/Space_Invasion_Game_screenshot.png" width="350">
 </p>
 
 ## Set-up:
