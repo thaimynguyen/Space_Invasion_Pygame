@@ -16,12 +16,19 @@ class PlayerShip(actor.Actor):
         self.x = (self.settings.width - self.width) // 2
         self.y = self.settings.height - self.height
 
+        # Cooldown timer for the bullets (only 3 bullets/second)
+        self.bullet_cooldown = self.settings.player_bullet_cooldown
+
+        # Player is invulnerable for the first 3 seconds
         self._invulnerable_frame = settings.FPS * 3
 
     def update(self) -> None:
-        if self._invulnerable_frame <= 0:
-            return
-        self._invulnerable_frame -= 1
+        if self._invulnerable_frame > 0:
+            self._invulnerable_frame -= 1
+        if self.bullet_cooldown > 0:
+            self.bullet_cooldown -= 1
+        elif self.bullet_cooldown == 0:
+            self.bullet_cooldown = self.settings.player_bullet_cooldown
 
     def move_left(self) -> None:
         if self.x - self.speed > 0:
@@ -38,7 +45,6 @@ class PlayerShip(actor.Actor):
     def on_collision(self, other) -> None:
         if self._is_invulnerable():
             return
-
         if isinstance(other, enemy.EnemyShip) or isinstance(other, enemy.EnemyBullet):
             self.should_be_removed = True
 

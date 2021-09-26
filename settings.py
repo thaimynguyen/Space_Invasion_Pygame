@@ -14,5 +14,5 @@ class Settings:
 
         self.FPS = 40  # Set frame per second
         self.invader_frequency = 1500
-        self.invader_bullet_limit = 3
-        self.spaceship_max_lives = 3
+        self.player_bullet_cooldown = self.FPS // 10
+        self.player_max_lives = 3
