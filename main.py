@@ -1,11 +1,11 @@
-from typing import List
+import sys
 import pygame
 import random
 import time
 
-from settings import Settings
+from settings import Settings, TextBox
 from player import PlayerShip, PlayerBullet
-from enemy import EnemyShip, EnemyBullet
+from enemy import EnemyShip
 
 
 # RBG
@@ -13,6 +13,7 @@ red = (255, 0, 0)
 yellow = (255, 255, 0)
 black = (0, 0, 0)
 white = (255, 255, 255)
+blue = (0, 0, 255)
 
 
 class Game:
@@ -22,12 +23,13 @@ class Game:
         self.screen = pygame.display.set_mode(
             (self.settings.width, self.settings.height)
         )
-        self.clock = pygame.time.Clock()
         self.actors = []
         self.player_life_count = self.settings.player_max_lives
         self.player_scores = 0
         self.game_over = False
         self.running = True
+        self.draw_screen()
+        self.draw_start_button()
 
     def draw_screen(self):
         self.screen.blit(self.settings.background, (0, 0))
@@ -38,23 +40,26 @@ class Game:
         self.update_health()
         pygame.display.update()
 
+    def draw_start_button(self):
+        self.start_button = TextBox(20, yellow, text="START", box=True)
+        self.start_button.x = self.settings.width // 2
+        self.start_button.y = self.settings.height // 2
+        self.start_button.draw(self.screen)
+        pygame.display.update()
+
     def update_score(self):
-        font = pygame.font.SysFont("comicsans", self.settings.width // 15)
-        self.score_text = font.render(f"Score: {str(self.player_scores)}", True, white)
-        self.screen.blit(
-            self.score_text,
-            (self.settings.width // 4 * 3, self.settings.height // 30 * 2),
-        )
+        self.score_board = TextBox(6, white)
+        self.score_board.x = self.settings.width - self.score_board.size * 4
+        self.score_board.y = self.score_board.size * 2
+        self.score_board.text = f"Score: {str(self.player_scores)}"
+        self.score_board.draw(self.screen)
 
     def update_health(self):
-        font = pygame.font.SysFont("comicsans", self.settings.width // 15)
-        self.health_text = font.render(
-            f"Health: {str(self.player_life_count)}", True, white
-        )
-        self.screen.blit(
-            self.health_text,
-            (self.settings.width // 4 * 3, self.settings.height // 30),
-        )
+        self.health_status = TextBox(6, white)
+        self.health_status.x = self.settings.width - self.health_status.size * 4
+        self.health_status.y = self.health_status.size
+        self.health_status.text = f"Health: {str(self.player_life_count)}"
+        self.health_status.draw(self.screen)
 
     def update_all(self):
         # Pre-action phase
@@ -100,28 +105,28 @@ class Game:
         else:
             self.game_over = True
 
-    def draw_game_over(self):
-        font = pygame.font.SysFont("comicsans", self.settings.width // 5)
-        text = font.render("GAME OVER", True, red, white)
-        text_rect = text.get_rect()
-        text_rect.center = (
-            self.settings.width // 2,
-            self.settings.height // 2,
-        )
-        self.screen.blit(text, text_rect)
+    def draw_game_over_text(self):
+        self.game_over_text = TextBox(20, red, text="GAME OVER", box=True)
+        self.game_over_text.x = self.settings.width // 2
+        self.game_over_text.y = self.settings.height // 2
+        self.game_over_text.draw(self.screen)
+        pygame.display.update()
+
+    def draw_new_game_button(self):
+        self.new_game_button = TextBox(15, yellow, text="NEW GAME", box=True)
+        self.new_game_button.x = self.settings.width // 2
+        self.new_game_button.y = int(self.settings.height * 0.6)
+        self.new_game_button.draw(self.screen)
         pygame.display.update()
 
     def run(self) -> None:
-        self.draw_screen()
         self.reset_player_life()
 
-        while self.running:
-            self.clock.tick(self.settings.FPS)
-
+        while True:
             if pygame.event.get(pygame.QUIT):
-                break
+                pygame.quit()
+                sys.exit()
             pygame.event.pump()
-
             self.keys = pygame.key.get_pressed()
             if self.keys[pygame.K_SPACE] and self.player_ship.bullet_cooldown == 0:
                 pygame.mixer.Sound("bullet_sound.mp3").play()
@@ -141,11 +146,29 @@ class Game:
             self.draw_screen()
 
             if self.game_over:
-                self.draw_game_over()
-                time.sleep(5)
-                break  # Quit program after 5 seconds
+                self.draw_game_over_text()
+                self.draw_new_game_button()
+                while True:
+                    for event in pygame.event.get():
+                        if event.type == pygame.MOUSEBUTTONDOWN:
+                            if self.new_game_button.text_rect.collidepoint(event.pos):
+                                self.running = False
+                                return True
+                        if event.type == pygame.QUIT:
+                            pygame.quit()
+                            sys.exit()
 
 
 if __name__ == "__main__":
-    game = Game()
-    game.run()
+    while True:
+        game = Game()
+        while game.running:
+            clock = pygame.time.Clock()
+            clock.tick(game.settings.FPS)
+            for event in pygame.event.get():
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if game.start_button.text_rect.collidepoint(event.pos):
+                        game.run()
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
