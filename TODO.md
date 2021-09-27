@@ -1,5 +1,5 @@
 ### TO-DO
-- [ ] Reset game (new game or quit)
+- [ ] Refactor code (especially class Game)
 
 
 ### Done ✓
@@ -15,6 +15,6 @@
 - [x] Give player one point after shooting down enemy ships
 - [x] Update scoreboard 
 - [x] Gameover screen
-- [ ] Reset game
+- [x] Add start & new-game (reset) buttons
 - [ ] Refactor codes
 - [ ] Deploy to Heroku
