@@ -10,7 +10,6 @@ Major things that I want to focus on learning in this project
 - [x] Pygame 
 - [x] Object-Oriented Programming
 - [x] Unit Testing (Pytest)
-- [ ] App deployment (Heroku)
 
 ## Game Screenshot 
 
