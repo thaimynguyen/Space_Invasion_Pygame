@@ -19,8 +19,8 @@ class PlayerShip(actor.Actor):
         # Cooldown timer for the bullets (only 3 bullets/second)
         self.bullet_cooldown = self.settings.player_bullet_cooldown
 
-        # Player is invulnerable for the first 2 seconds
-        self._invulnerable_frame = settings.FPS * 2
+        # Player is invulnerable for the first 3 seconds
+        self._invulnerable_frame = settings.FPS * 3
 
     def update(self) -> None:
         if self._invulnerable_frame > 0:
