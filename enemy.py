@@ -15,7 +15,7 @@ class EnemyShip(actor.Actor):
         super().__init__(width, height, speed, img_path, settings)
 
         self.x = random.randint(0, self.settings.width - self.width)
-        self.y = 0
+        self.y = int(self.settings.height * 0.05)
 
     def update(self) -> None:
         self.y += self.speed
